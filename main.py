@@ -1,13 +1,15 @@
 <<<<<<< HEAD
 from flask import *
 from time import *
-from xpinyin import *
+#导入库
 
 app = Flask(__name__)
 train = "G52"
 station = [["重庆北", [7, 32], 0, "Chongqingbei"], ["南阳东", [10, 52], 2, "Nanyangdong"],
            ["郑州东", [12, 7], 3, "Zhengzhoudong"], ["石家庄", [13, 25], 2, "Shijiazhuang"],
            ["北京西", [14, 26], -1, "Beijingxi"]]
+#站点
+#添加开车时间
 for i in range(len(station)):
     t = [0, 0]
     t[1] = station[i][1][1] + station[i][2]
