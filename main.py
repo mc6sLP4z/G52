@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import *
 from time import *
 #导入库
