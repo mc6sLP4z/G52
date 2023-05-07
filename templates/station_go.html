@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="refresh" content="3">
+</head>
+<body style="background-color:black">
+<h1 style="color:yellow">{{time_now}}</h1>
+<span style="font-size:30px;color:orange">下一站:{{list[0]}}。<br>The next station is {{list[3]}}</span>
+<span style="font-size:30px;color:blue"><br>剩余{{ltime}}时{{ltime1}}分到达<br>We will arrive at {{ltime}} hour{{% if ltime>1 %}}s{% endif %} {ltime1} minute{% if ltime1>1 %}s{% endif %} later.</span>
+</body>
+</html>
