@@ -1,16 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
     <title>时刻表</title>
     <style>
         body{
             height: 100%
         }
+        .iframe {
+              position: absolute;
+              top: 0;
+              left: 0;
+              transform: scale(.5, .5) translate(-90%, -90%);
+              width: 200%;
+              height: 200%;
+        }
+        .go-top ul{
+            width: 171px;
+            height: 489px;
+            background: url("bg.jpg") no-repeat
+        }
+        .go-top {
+            position: fixed;	        /* 设置fixed固定定位 */
+            bottom: 20px;		/* 距离浏览器窗口下边框20px */
+            right: 20px;		/* 距离浏览器窗口右边框20px */
+          }
+          .go-top a {
+            display: block;			/* 将<a>标签设为块元素，用于美化样式 */
+            text-decoration: none;		/* 取消超链接下画线 */
+            color: #333;			/* 设置文本颜色 */
+            background-color: #f2f2f2;		/* 设置背景颜色 */
+            border: 1px solid #ccc;		/* 设置边框样式 */
+            padding: 10px 20px;			/* 设置内边距 */
+            border-radius: 5px;			/* 设置圆角矩形 */
+            letter-spacing: 2px;		/* 设置文字间距 */
+          }
+          /* 遮罩层样式 */
+
+
+        /* 弹窗样式 */
+        .popup {
+             position: fixed;	        /* 设置fixed固定定位 */
+            bottom: 20px;		/* 距离浏览器窗口下边框20px */
+            right: 20px;		/* 距离浏览器窗口右边框20px */
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none; /* 默认隐藏 */
+        }
+        label {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        select option {
+            color: #555;
+        }
+        button {
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+
     </style>
+    <script language="JavaScript">
+            function getCurrentTime()
+            {
+                var today=new Date();//定义日期对象
+                var yyyy = today.getFullYear();//通过日期对象的getFullYear()方法返回年
+                var MM = today.getMonth()+1;//通过日期对象的getMonth()方法返回月
+                var dd = today.getDate();//通过日期对象的getDate()方法返回天
+                var hh=today.getHours();//通过日期对象的getHours方法返回小时
+                var mm=today.getMinutes();//通过日期对象的getMinutes方法返回分钟
+                var ss=today.getSeconds();//通过日期对象的getSeconds方法返回秒
+                MM=checkTime(MM);
+                dd=checkTime(dd);
+                mm=checkTime(mm);
+                ss=checkTime(ss);
+                var day; //用于保存星期（getDay()方法得到星期编号）
+                if(today.getDay()==0)   day   =   "星期日 "
+                if(today.getDay()==1)   day   =   "星期一 "
+                if(today.getDay()==2)   day   =   "星期二 "
+                if(today.getDay()==3)   day   =   "星期三 "
+                if(today.getDay()==4)   day   =   "星期四 "
+                if(today.getDay()==5)   day   =   "星期五 "
+                if(today.getDay()==6)   day   =   "星期六 "
+                document.getElementById('nowSpan').innerHTML=yyyy+"-"+MM +"-"+ dd +" " + hh+":"+mm+":"+ss+"   " + day;
+                setTimeout('getCurrentTime()',1000);//每一秒中重新加载getCurrentTime()方法
+            }
+           //当分钟，月份，天数 小于10时是 9->09  补0函数
+            function checkTime(i)
+            {
+                if (i<10){
+                    i="0" + i;
+                }
+                  return i;
+            }
+    </script>
 </head>
-<body style="background-color:black">
-<marquee><span style="font-size:50px;color:red">高铁上不得吸烟！北京欢迎您！</span></marquee>
-<iframe src="/train" width="100%" height="400px">404</iframe>
+<body style="background-color:black" onload="getCurrentTime()">
+<marquee><span style="font-size:20px;color:red">高铁上不得吸烟！北京欢迎您！  时间：<span id="nowSpan"></span> </span>
+</marquee>
+<iframe src="https://static.ccrgt.com/fe-trao-travel/#/pages/travel/travel-detail/index?trainNumber=G52&date=1683847920000&startStation=%E9%87%8D%E5%BA%86%E5%8C%97&endStation=%E5%8C%97%E4%BA%AC%E8%A5%BF"
+        width="300px" height="150px">
+</iframe>
+<div class="go-top">
+    <button id="openbtn" class="go-top">视频</button>
+</div>
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+    <video src="{{video}}" height="100%" width="70%"></video>
+    <button id="closebtn">关闭</button>
+</div>
+<script>
+    const openbtn=document.getElementById('openbtn');
+    const closebtn=document.getElementById('closebtn');
+    const popup=document.getElementById('popup');
+    const overlay=document.getElementById('overlay');
+    openbtn.addEventListener('click',function(){
+        popup.style.display='block';
+        overlay.style.display='block';
+    })
+    closebtn.addEventListener('click',function(){
+        popup.style.display='none';
+        overlay.style.display='none';
+    })
+</script>
 </body>
 </html>
